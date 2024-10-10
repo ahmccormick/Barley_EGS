@@ -5,5 +5,6 @@ This repository provides the supporting data for a recently submitted manuscript
 * The input VCF file is located in Supplementary_files
 *  Supplementary_File_1 for marker effects in located in Supplementary_files
 *  R script Barley_Parental_Figures_manuscript.R contains analysis for main and supplemental figures
+*  A pre-print of this work can be found at (to add shortly)
 * High resolution verions of main and supplemental figures are to be available on fig share https://figshare.com/authors/Anna_H_McCormick/17741367
 
