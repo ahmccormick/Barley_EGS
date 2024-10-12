@@ -353,22 +353,8 @@ grid.arrange(p1, p2, p3, p4, p5, p6, p7, ncol = 3)
 #Core collection identification from datasets
 #########################################
 library(vcfR)
-library(gdsfmt)
-library(SNPRelate)
-library(gwscaR)
-library(gt)
-library(snpsel)
-library(ggplot2)
 library(poppr)
-library(reshape2)
-library(ggplot2)
-library(dartR)
 library(adegenet)
-library(poppr)
-library(ape)
-library(RColorBrewer)
-library(adegenet)
-library(rCNV)
 
 setwd("~/R/barley_collab/parental_selection/")
 vcf <- read.vcfR("Supplemental_dataset_1.vcf")
@@ -379,78 +365,11 @@ x <- vcfR2genlight(vcf)
 #create distance matrix
 x.dist <- dist(x)
 ploidy(x) <- 2
-#tree <- aboot(gl.rubi, tree = "upgma", distance = bitwise.dist, sample = 100, showtree = F, cutoff = 50, quiet = T)
-
-#change to genid
-x<- vcfR2genind(vcf)
-#set ploidy
-ploidy(x) <- 2
-xmlg<-mlg(x, quiet = FALSE)
-
-#genetic distance
-x.dist <- poppr::bitwise.dist(x)
-hist(x.dist)
-heatmap(as.matrix(x.dist)) 
-
-#write.csv(x.dist,"lei_vcf1_distance_matrix.csv")
-
-# Ward Hierarchical Clustering
-fit <- hclust(x.dist, method="ward") 
-plot(fit) # display dendogram
-groups <- cutree(fit, k=11) # cut tree into 5 clusters
-# draw dendogram with red borders around the 5 clusters 
-rect.hclust(fit, k=11, border="red")
-
-
-#write.csv(as.matrix(x.dist), "distance_sug.csv")
-thresholds<-mlg.filter(x, threshold = 0.05, distance = "bitwise.dist", missing="mean",threads = 1L)
-cutoff_predictor(thresholds, fraction = 0.05)
-
-pthresh  <- filter_stats(x, distance = "bitwise.dist",
-                         plot = TRUE, stats = "THRESHOLD", threads = 1L)
-cutoff_predictor(pthresh$farthest)
-
-# prediction for all algorithms
-sapply(pthresh, cutoff_predictor) #take note of the farthest number for later use
-tab<-mlg.table(x)
-diversity_boot(tab, 10L)
-diversity_ci(tab, 10L, rarefy = F, raw = FALSE)
-diversity_stats(tab)
-
-#The threshold used to define MLGs was predicted using cutoff_predictor with the “farthest” algorithm. 
-cc_test <- clonecorrect(x)
-cc_test
-nInd(x) # 1903
-# How many after we clone corrected for country, year, and month?
-nInd(cc_test) # 1190
-
-#write.csv(x$tab, "test_1488.csv")
-
-sbs<-as.genclone(x)
-mll(sbs) 
-mlg.filter(sbs, threshold = 0.05, distance = "bitwise.dist", missing="mean",threads = 1L)
-raw_dist <- function(sbs){
-  dist(genind2df(sbs, usepop = FALSE))
-}
-(xdis <- raw_dist(sbs))
-
-mlg.filter(sbs)<- 0.01380191  #Barley
-
-dups_sug = mlg.id(sbs)
-
-for (i in dups_sug){ # for each element in the list object
-  if (length(dups_sug[i]) > 1){ # if the length is greater than 1
-    print(i) # print individuals that are duplicates
-  }
-}
-
 
 library(corehunter)
 # precomputed distance matrix
 my.data <- distances(as.matrix(x.dist))
-#core <- sampleCore(my.data, size = 25)
 core <- sampleCore(my.data, size = 100)
-#core <- sampleCore(my.data, size = 10)
 core
 
 write.csv(core, 'barley_core_lei.csv')
