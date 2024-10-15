@@ -355,20 +355,21 @@ grid.arrange(p1, p2, p3, p4, p5, p6, p7, ncol = 3)
 library(vcfR)
 library(poppr)
 library(adegenet)
+library(corehunter)
 
 setwd("~/R/barley_collab/parental_selection/")
 vcf <- read.vcfR("Supplemental_dataset_1.vcf")
 
 ####convert genlight object
 x <- vcfR2genlight(vcf)
+ploidy(x) <- 2
 
 #create distance matrix
 x.dist <- dist(x)
-ploidy(x) <- 2
-
-library(corehunter)
-# precomputed distance matrix
+hc <- hclust(x.dist, method = "ward.D2")
+clusters <- cutree(hc, k = 5)
 my.data <- distances(as.matrix(x.dist))
+
 core <- sampleCore(my.data, size = 100)
 core
 
