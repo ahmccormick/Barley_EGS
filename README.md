@@ -6,5 +6,5 @@ This repository provides the supporting data for a recently submitted manuscript
 *  Supplementary_File_1 for marker effects in located in Supplementary_files
 *  R script Barley_Parental_Figures_manuscript.R contains analysis for main and supplemental figures
 *  A pre-print of this work can be found at https://www.biorxiv.org/content/10.1101/2024.10.09.617488v1
-* High resolution verions of main and supplemental figures are to be available on fig share once accepted https://figshare.com/authors/Anna_H_McCormick/17741367
+* High resolution verions of main and supplemental figures are available on fig share https://figshare.com/articles/dataset/EGS_Barley/28691363
 
